@@ -19,8 +19,8 @@ num-traits = "0.2.12"
 [dev-dependencies]
 simple-soft-float = "0.1.0"
 
-#[patch.crates-io]
-#softfloat-sys = {git = "https://salsa.debian.org/dalance/softfloat-sys", branch = "old_gcc"}
+[patch.crates-io]
+softfloat-sys = {git = "https://salsa.debian.org/dalance/softfloat-sys", branch = "old_gcc"}
 
 [package.metadata.release]
 dev-version-ext             = "pre"
