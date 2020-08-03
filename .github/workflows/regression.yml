@@ -21,6 +21,8 @@ jobs:
       uses: hecrj/setup-rust-action@v1
       with:
         rust-version: ${{ matrix.rust }}
+    - name: Setup gcc
+      run: sudo apt install gcc
     - name: Checkout
       uses: actions/checkout@v1
     - name: Run tests
