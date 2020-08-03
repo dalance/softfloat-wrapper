@@ -12,11 +12,14 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-softfloat-sys = {version = "0.1.1", path = "../softfloat-sys"}
+softfloat-sys = "0.1.1"
 num-traits = "0.2.12"
 
 [dev-dependencies]
 simple-soft-float = "0.1.0"
+
+[patch.crates-io]
+softfloat-sys = {git = "https://salsa.debian.org/dalance/softfloat-sys", branch = "old_gcc"}
 
 [package.metadata.release]
 dev-version-ext             = "pre"
