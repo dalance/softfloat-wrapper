@@ -1,0 +1,29 @@
+[package]
+name = "softfloat-wrapper"
+version = "0.1.0"
+authors = ["dalance@gmail.com"]
+repository = "https://github.com/dalance/softfloat-wrapper"
+keywords = ["softfloat"]
+categories = ["api-bindings", "mathematics"]
+license = "MIT OR Apache-2.0"
+readme = "README.md"
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+softfloat-sys = {version = "0.1.1", path = "../softfloat-sys"}
+num-traits = "0.2.12"
+
+[dev-dependencies]
+simple-soft-float = "0.1.0"
+
+[package.metadata.release]
+dev-version-ext             = "pre"
+pre-release-commit-message  = "Prepare to v{{version}}"
+post-release-commit-message = "Start next development iteration v{{version}}"
+tag-message                 = "Bump version to {{version}}"
+tag-prefix                  = ""
+pre-release-replacements    = [
+    {file = "README.md", search = "softfloat-wrapper = \"[a-z0-9\\.-]+\"", replace = "softfloat-wrapper = \"{{version}}\""},
+]
