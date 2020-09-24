@@ -186,6 +186,16 @@ pub trait Float {
 
     fn sqrt(&self, rnd: RoundingMode) -> Self;
 
+    fn eq<T: Borrow<Self>>(&self, x: T) -> bool;
+
+    fn lt<T: Borrow<Self>>(&self, x: T) -> bool;
+
+    fn le<T: Borrow<Self>>(&self, x: T) -> bool;
+
+    fn lt_quiet<T: Borrow<Self>>(&self, x: T) -> bool;
+
+    fn le_quiet<T: Borrow<Self>>(&self, x: T) -> bool;
+
     fn compare<T: Borrow<Self>>(&self, x: T) -> Option<Ordering>;
 
     fn from_u32(x: u32, rnd: RoundingMode) -> Self;
