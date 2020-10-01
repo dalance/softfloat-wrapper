@@ -72,6 +72,26 @@ impl Float for F64 {
         Self(ret)
     }
 
+    fn eq<T: Borrow<Self>>(&self, x: T) -> bool {
+        unsafe { softfloat_sys::f64_eq(self.0, x.borrow().0) }
+    }
+
+    fn lt<T: Borrow<Self>>(&self, x: T) -> bool {
+        unsafe { softfloat_sys::f64_lt(self.0, x.borrow().0) }
+    }
+
+    fn le<T: Borrow<Self>>(&self, x: T) -> bool {
+        unsafe { softfloat_sys::f64_le(self.0, x.borrow().0) }
+    }
+
+    fn lt_quiet<T: Borrow<Self>>(&self, x: T) -> bool {
+        unsafe { softfloat_sys::f64_lt_quiet(self.0, x.borrow().0) }
+    }
+
+    fn le_quiet<T: Borrow<Self>>(&self, x: T) -> bool {
+        unsafe { softfloat_sys::f64_le_quiet(self.0, x.borrow().0) }
+    }
+
     fn compare<T: Borrow<Self>>(&self, x: T) -> Option<Ordering> {
         let eq = unsafe { softfloat_sys::f64_eq(self.0, x.borrow().0) };
         let lt = unsafe { softfloat_sys::f64_lt(self.0, x.borrow().0) };
