@@ -1,7 +1,6 @@
 use crate::{Float, RoundingMode, F128, F16, F32};
 use softfloat_sys::float64_t;
 use std::borrow::Borrow;
-use std::cmp::Ordering;
 
 /// standard 64-bit float
 #[derive(Copy, Clone, Debug)]
@@ -170,6 +169,7 @@ impl Float for F64 {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::cmp::Ordering;
 
     #[test]
     fn f64_add() {
