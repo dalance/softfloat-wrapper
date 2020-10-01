@@ -9,7 +9,7 @@ softfloat-wrapper is a safe wrapper of [Berkeley SoftFloat](https://github.com/u
 
 ```Cargo.toml
 [dependencies]
-softfloat-wrapper = "0.1.1"
+softfloat-wrapper = "0.1.2"
 ```
 
 ## Example

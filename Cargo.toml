@@ -1,6 +1,6 @@
 [package]
 name = "softfloat-wrapper"
-version = "0.1.2-pre"
+version = "0.1.2"
 authors = ["dalance@gmail.com"]
 repository = "https://github.com/dalance/softfloat-wrapper"
 keywords = ["softfloat"]
