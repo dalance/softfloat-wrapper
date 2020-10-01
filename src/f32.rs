@@ -73,23 +73,23 @@ impl Float for F32 {
     }
 
     fn eq<T: Borrow<Self>>(&self, x: T) -> bool {
-        unsafe { softfloat_sys_riscv::f32_eq(self.0, x.borrow().0) }
+        unsafe { softfloat_sys::f32_eq(self.0, x.borrow().0) }
     }
 
     fn lt<T: Borrow<Self>>(&self, x: T) -> bool {
-        unsafe { softfloat_sys_riscv::f32_lt(self.0, x.borrow().0) }
+        unsafe { softfloat_sys::f32_lt(self.0, x.borrow().0) }
     }
 
     fn le<T: Borrow<Self>>(&self, x: T) -> bool {
-        unsafe { softfloat_sys_riscv::f32_le(self.0, x.borrow().0) }
+        unsafe { softfloat_sys::f32_le(self.0, x.borrow().0) }
     }
 
     fn lt_quiet<T: Borrow<Self>>(&self, x: T) -> bool {
-        unsafe { softfloat_sys_riscv::f32_lt_quiet(self.0, x.borrow().0) }
+        unsafe { softfloat_sys::f32_lt_quiet(self.0, x.borrow().0) }
     }
 
     fn le_quiet<T: Borrow<Self>>(&self, x: T) -> bool {
-        unsafe { softfloat_sys_riscv::f32_le_quiet(self.0, x.borrow().0) }
+        unsafe { softfloat_sys::f32_le_quiet(self.0, x.borrow().0) }
     }
 
     fn compare<T: Borrow<Self>>(&self, x: T) -> Option<Ordering> {
