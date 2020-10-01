@@ -97,20 +97,6 @@ impl Float for F128 {
         unsafe { softfloat_sys::f128_le_quiet(self.0, x.borrow().0) }
     }
 
-    fn compare<T: Borrow<Self>>(&self, x: T) -> Option<Ordering> {
-        let eq = unsafe { softfloat_sys::f128_eq(self.0, x.borrow().0) };
-        let lt = unsafe { softfloat_sys::f128_lt(self.0, x.borrow().0) };
-        if self.is_nan() || x.borrow().is_nan() {
-            None
-        } else if eq {
-            Some(Ordering::Equal)
-        } else if lt {
-            Some(Ordering::Less)
-        } else {
-            Some(Ordering::Greater)
-        }
-    }
-
     fn from_u32(x: u32, rnd: RoundingMode) -> Self {
         rnd.set();
         let ret = unsafe { softfloat_sys::ui32_to_f128(x) };

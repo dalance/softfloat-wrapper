@@ -196,8 +196,6 @@ pub trait Float {
 
     fn le_quiet<T: Borrow<Self>>(&self, x: T) -> bool;
 
-    fn compare<T: Borrow<Self>>(&self, x: T) -> Option<Ordering>;
-
     fn from_u32(x: u32, rnd: RoundingMode) -> Self;
 
     fn from_u64(x: u64, rnd: RoundingMode) -> Self;
@@ -223,6 +221,21 @@ pub trait Float {
     fn to_f128(&self, rnd: RoundingMode) -> F128;
 
     fn round_to_integral(&self, rnd: RoundingMode) -> Self;
+
+    #[inline]
+    fn compare<T: Borrow<Self>>(&self, x: T) -> Option<Ordering> {
+        let eq = self.eq(x.borrow());
+        let lt = self.lt(x.borrow());
+        if self.is_nan() || x.borrow().is_nan() {
+            None
+        } else if eq {
+            Some(Ordering::Equal)
+        } else if lt {
+            Some(Ordering::Less)
+        } else {
+            Some(Ordering::Greater)
+        }
+    }
 
     #[inline]
     fn from_u8(x: u8, rnd: RoundingMode) -> Self
