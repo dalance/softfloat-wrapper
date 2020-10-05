@@ -33,6 +33,25 @@ fn main() {
 }
 ```
 
+## Feature
+
+Some architectures are supported:
+
+* 8086
+* 8086-SSE (default)
+* ARM-VFPv2
+* ARM-VFPv2-DefaultNaN
+* RISCV
+
+You can specify architecture through feature like below:
+
+```Cargo.toml
+[dependencies.softfloat-wrapper]
+version = "0.1.2"
+default-features = false
+features = ["riscv"]
+```
+
 ## License
 
 Licensed under either of
