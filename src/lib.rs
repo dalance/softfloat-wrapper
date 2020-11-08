@@ -204,13 +204,13 @@ pub trait Float {
 
     fn from_i64(x: i64, rnd: RoundingMode) -> Self;
 
-    fn to_u32(&self, rnd: RoundingMode) -> u32;
+    fn to_u32(&self, rnd: RoundingMode, exact: bool) -> u32;
 
-    fn to_u64(&self, rnd: RoundingMode) -> u64;
+    fn to_u64(&self, rnd: RoundingMode, exact: bool) -> u64;
 
-    fn to_i32(&self, rnd: RoundingMode) -> i32;
+    fn to_i32(&self, rnd: RoundingMode, exact: bool) -> i32;
 
-    fn to_i64(&self, rnd: RoundingMode) -> i64;
+    fn to_i64(&self, rnd: RoundingMode, exact: bool) -> i64;
 
     fn to_f16(&self, rnd: RoundingMode) -> F16;
 
