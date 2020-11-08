@@ -120,23 +120,23 @@ impl Float for F128 {
         Self(ret)
     }
 
-    fn to_u32(&self, rnd: RoundingMode) -> u32 {
-        let ret = unsafe { softfloat_sys::f128_to_ui32(self.0, rnd.to_softfloat(), false) };
+    fn to_u32(&self, rnd: RoundingMode, exact: bool) -> u32 {
+        let ret = unsafe { softfloat_sys::f128_to_ui32(self.0, rnd.to_softfloat(), exact) };
         ret as u32
     }
 
-    fn to_u64(&self, rnd: RoundingMode) -> u64 {
-        let ret = unsafe { softfloat_sys::f128_to_ui64(self.0, rnd.to_softfloat(), false) };
+    fn to_u64(&self, rnd: RoundingMode, exact: bool) -> u64 {
+        let ret = unsafe { softfloat_sys::f128_to_ui64(self.0, rnd.to_softfloat(), exact) };
         ret
     }
 
-    fn to_i32(&self, rnd: RoundingMode) -> i32 {
-        let ret = unsafe { softfloat_sys::f128_to_i32(self.0, rnd.to_softfloat(), false) };
+    fn to_i32(&self, rnd: RoundingMode, exact: bool) -> i32 {
+        let ret = unsafe { softfloat_sys::f128_to_i32(self.0, rnd.to_softfloat(), exact) };
         ret as i32
     }
 
-    fn to_i64(&self, rnd: RoundingMode) -> i64 {
-        let ret = unsafe { softfloat_sys::f128_to_i64(self.0, rnd.to_softfloat(), false) };
+    fn to_i64(&self, rnd: RoundingMode, exact: bool) -> i64 {
+        let ret = unsafe { softfloat_sys::f128_to_i64(self.0, rnd.to_softfloat(), exact) };
         ret
     }
 
