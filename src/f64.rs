@@ -6,6 +6,13 @@ use std::borrow::Borrow;
 #[derive(Copy, Clone, Debug)]
 pub struct F64(float64_t);
 
+impl F64 {
+    /// Converts primitive `f64` to `F64`
+    pub fn from_f64(v: f64) -> Self {
+        Self::from_bits(v.to_bits())
+    }
+}
+
 impl Float for F64 {
     type Payload = u64;
 
@@ -288,5 +295,11 @@ mod tests {
         let b = F64::from_bits(0x12345678aaaaaaaa);
         let d = a.compare(b);
         assert_eq!(d, Some(Ordering::Equal));
+    }
+
+    #[test]
+    fn from_f64() {
+        let a = F64::from_f64(0.1);
+        assert_eq!(a.to_bits(), 0x3fb999999999999a);
     }
 }

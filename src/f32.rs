@@ -6,6 +6,13 @@ use std::borrow::Borrow;
 #[derive(Copy, Clone, Debug)]
 pub struct F32(float32_t);
 
+impl F32 {
+    /// Converts primitive `f32` to `F32`
+    pub fn from_f32(v: f32) -> Self {
+        Self::from_bits(v.to_bits())
+    }
+}
+
 impl Float for F32 {
     type Payload = u32;
 
@@ -288,5 +295,11 @@ mod tests {
         let b = F32::from_bits(0x12345678);
         let d = a.compare(b);
         assert_eq!(d, Some(Ordering::Equal));
+    }
+
+    #[test]
+    fn from_f32() {
+        let a = F32::from_f32(0.1);
+        assert_eq!(a.to_bits(), 0x3dcccccd);
     }
 }
