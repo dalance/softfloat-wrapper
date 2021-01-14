@@ -27,11 +27,16 @@ impl Float for F128 {
     }
 
     #[inline]
-    fn bits(&self) -> Self::Payload {
+    fn to_bits(&self) -> Self::Payload {
         let mut ret = 0u128;
         ret |= self.0.v[0] as u128;
         ret |= (self.0.v[1] as u128) << 64;
         ret
+    }
+
+    #[inline]
+    fn bits(&self) -> Self::Payload {
+        self.to_bits()
     }
 
     fn add<T: Borrow<Self>>(&self, x: T, rnd: RoundingMode) -> Self {
@@ -159,7 +164,7 @@ impl Float for F128 {
     }
 
     fn to_f128(&self, _rnd: RoundingMode) -> F128 {
-        Self::from_bits(self.bits())
+        Self::from_bits(self.to_bits())
     }
 
     fn round_to_integral(&self, rnd: RoundingMode) -> Self {
@@ -183,7 +188,7 @@ mod tests {
         let a1 = simple_soft_float::F128::from_bits(a);
         let b1 = simple_soft_float::F128::from_bits(b);
         let d1 = a1.add(&b1, Some(simple_soft_float::RoundingMode::TiesToEven), None);
-        assert_eq!(d0.bits(), *d1.bits());
+        assert_eq!(d0.to_bits(), *d1.bits());
     }
 
     #[test]
@@ -196,7 +201,7 @@ mod tests {
         let a1 = simple_soft_float::F128::from_bits(a);
         let b1 = simple_soft_float::F128::from_bits(b);
         let d1 = a1.sub(&b1, Some(simple_soft_float::RoundingMode::TiesToEven), None);
-        assert_eq!(d0.bits(), *d1.bits());
+        assert_eq!(d0.to_bits(), *d1.bits());
     }
 
     #[test]
@@ -209,7 +214,7 @@ mod tests {
         let a1 = simple_soft_float::F128::from_bits(a);
         let b1 = simple_soft_float::F128::from_bits(b);
         let d1 = a1.mul(&b1, Some(simple_soft_float::RoundingMode::TiesToEven), None);
-        assert_eq!(d0.bits(), *d1.bits());
+        assert_eq!(d0.to_bits(), *d1.bits());
     }
 
     #[test]
@@ -231,7 +236,7 @@ mod tests {
             Some(simple_soft_float::RoundingMode::TiesToEven),
             None,
         );
-        assert_eq!(d0.bits(), *d1.bits());
+        assert_eq!(d0.to_bits(), *d1.bits());
     }
 
     #[test]
@@ -244,7 +249,7 @@ mod tests {
         let a1 = simple_soft_float::F128::from_bits(a);
         let b1 = simple_soft_float::F128::from_bits(b);
         let d1 = a1.div(&b1, Some(simple_soft_float::RoundingMode::TiesToEven), None);
-        assert_eq!(d0.bits(), *d1.bits());
+        assert_eq!(d0.to_bits(), *d1.bits());
     }
 
     #[test]
@@ -258,7 +263,7 @@ mod tests {
         let a1 = simple_soft_float::F128::from_bits(a);
         let b1 = simple_soft_float::F128::from_bits(b);
         let d1 = a1.ieee754_remainder(&b1, Some(simple_soft_float::RoundingMode::TiesToEven), None);
-        assert_eq!(d0.bits(), *d1.bits());
+        assert_eq!(d0.to_bits(), *d1.bits());
     }
 
     #[test]
@@ -269,7 +274,7 @@ mod tests {
         let d0 = a0.sqrt(RoundingMode::TiesToEven);
         let a1 = simple_soft_float::F128::from_bits(a);
         let d1 = a1.sqrt(Some(simple_soft_float::RoundingMode::TiesToEven), None);
-        assert_eq!(d0.bits(), *d1.bits());
+        assert_eq!(d0.to_bits(), *d1.bits());
     }
 
     #[test]

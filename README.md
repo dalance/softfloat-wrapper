@@ -25,9 +25,9 @@ fn main() {
     let b = F16::from_bits(b);
     let d = a.add(b, RoundingMode::TiesToEven);
 
-    let a = f32::from_bits(a.to_f32(RoundingMode::TiesToEven).bits());
-    let b = f32::from_bits(b.to_f32(RoundingMode::TiesToEven).bits());
-    let d = f32::from_bits(d.to_f32(RoundingMode::TiesToEven).bits());
+    let a = f32::from_bits(a.to_f32(RoundingMode::TiesToEven).to_bits());
+    let b = f32::from_bits(b.to_f32(RoundingMode::TiesToEven).to_bits());
+    let d = f32::from_bits(d.to_f32(RoundingMode::TiesToEven).to_bits());
 
     println!("{} + {} = {}", a, b, d);
 }

@@ -13,9 +13,9 @@
 //!     let b = F16::from_bits(b);
 //!     let d = a.add(b, RoundingMode::TiesToEven);
 //!
-//!     let a = f32::from_bits(a.to_f32(RoundingMode::TiesToEven).bits());
-//!     let b = f32::from_bits(b.to_f32(RoundingMode::TiesToEven).bits());
-//!     let d = f32::from_bits(d.to_f32(RoundingMode::TiesToEven).bits());
+//!     let a = f32::from_bits(a.to_f32(RoundingMode::TiesToEven).to_bits());
+//!     let b = f32::from_bits(b.to_f32(RoundingMode::TiesToEven).to_bits());
+//!     let d = f32::from_bits(d.to_f32(RoundingMode::TiesToEven).to_bits());
 //!
 //!     println!("{} + {} = {}", a, b, d);
 //! }
@@ -102,8 +102,13 @@ impl ExceptionFlags {
         Self(x)
     }
 
-    pub fn bits(&self) -> u8 {
+    pub fn to_bits(&self) -> u8 {
         self.0
+    }
+
+    #[deprecated(since = "0.3.0", note = "Please use to_bits instead")]
+    pub fn bits(&self) -> u8 {
+        self.to_bits()
     }
 
     pub fn is_inexact(&self) -> bool {
@@ -128,7 +133,7 @@ impl ExceptionFlags {
 
     pub fn set(&self) {
         unsafe {
-            softfloat_sys::softfloat_exceptionFlags_write_helper(self.bits());
+            softfloat_sys::softfloat_exceptionFlags_write_helper(self.to_bits());
         }
     }
 
@@ -170,6 +175,9 @@ pub trait Float {
 
     fn from_bits(v: Self::Payload) -> Self;
 
+    fn to_bits(&self) -> Self::Payload;
+
+    #[deprecated(since = "0.3.0", note = "Please use to_bits instead")]
     fn bits(&self) -> Self::Payload;
 
     fn add<T: Borrow<Self>>(&self, x: T, rnd: RoundingMode) -> Self;
@@ -274,7 +282,7 @@ pub trait Float {
     where
         Self: Sized,
     {
-        let mut ret = Self::from_bits(self.bits());
+        let mut ret = Self::from_bits(self.to_bits());
         ret.set_sign(!self.sign());
         ret
     }
@@ -284,24 +292,24 @@ pub trait Float {
     where
         Self: Sized,
     {
-        let mut ret = Self::from_bits(self.bits());
+        let mut ret = Self::from_bits(self.to_bits());
         ret.set_sign(Self::Payload::zero());
         ret
     }
 
     #[inline]
     fn sign(&self) -> Self::Payload {
-        (self.bits() >> Self::SIGN_POS) & Self::Payload::one()
+        (self.to_bits() >> Self::SIGN_POS) & Self::Payload::one()
     }
 
     #[inline]
     fn exponent(&self) -> Self::Payload {
-        (self.bits() >> Self::EXPONENT_POS) & Self::EXPONENT_BIT
+        (self.to_bits() >> Self::EXPONENT_POS) & Self::EXPONENT_BIT
     }
 
     #[inline]
     fn fraction(&self) -> Self::Payload {
-        self.bits() & Self::FRACTION_BIT
+        self.to_bits() & Self::FRACTION_BIT
     }
 
     #[inline]
@@ -388,7 +396,7 @@ pub trait Float {
     #[inline]
     fn set_sign(&mut self, x: Self::Payload) {
         self.set_payload(
-            (self.bits() & !(Self::Payload::one() << Self::SIGN_POS))
+            (self.to_bits() & !(Self::Payload::one() << Self::SIGN_POS))
                 | ((x & Self::Payload::one()) << Self::SIGN_POS),
         );
     }
@@ -396,14 +404,14 @@ pub trait Float {
     #[inline]
     fn set_exponent(&mut self, x: Self::Payload) {
         self.set_payload(
-            (self.bits() & !(Self::EXPONENT_BIT << Self::EXPONENT_POS))
+            (self.to_bits() & !(Self::EXPONENT_BIT << Self::EXPONENT_POS))
                 | ((x & Self::EXPONENT_BIT) << Self::EXPONENT_POS),
         );
     }
 
     #[inline]
     fn set_fraction(&mut self, x: Self::Payload) {
-        self.set_payload((self.bits() & !Self::FRACTION_BIT) | (x & Self::FRACTION_BIT));
+        self.set_payload((self.to_bits() & !Self::FRACTION_BIT) | (x & Self::FRACTION_BIT));
     }
 
     #[inline]
