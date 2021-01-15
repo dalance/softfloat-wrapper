@@ -6,6 +6,18 @@ use std::borrow::Borrow;
 #[derive(Copy, Clone, Debug)]
 pub struct F16(float16_t);
 
+impl F16 {
+    /// Converts primitive `f32` to `F16`
+    pub fn from_f32(v: f32) -> Self {
+        F32::from_bits(v.to_bits()).to_f16(RoundingMode::TiesToEven)
+    }
+
+    /// Converts primitive `f64` to `F16`
+    pub fn from_f64(v: f64) -> Self {
+        F64::from_bits(v.to_bits()).to_f16(RoundingMode::TiesToEven)
+    }
+}
+
 impl Float for F16 {
     type Payload = u16;
 
@@ -288,5 +300,17 @@ mod tests {
         let b = F16::from_bits(0x1234);
         let d = a.compare(b);
         assert_eq!(d, Some(Ordering::Equal));
+    }
+
+    #[test]
+    fn from_f32() {
+        let a = F16::from_f32(0.1);
+        assert_eq!(a.to_bits(), 0x2e66);
+    }
+
+    #[test]
+    fn from_f64() {
+        let a = F16::from_f64(0.1);
+        assert_eq!(a.to_bits(), 0x2e66);
     }
 }

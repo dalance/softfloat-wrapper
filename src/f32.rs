@@ -11,6 +11,11 @@ impl F32 {
     pub fn from_f32(v: f32) -> Self {
         Self::from_bits(v.to_bits())
     }
+
+    /// Converts primitive `f64` to `F32`
+    pub fn from_f64(v: f64) -> Self {
+        F64::from_bits(v.to_bits()).to_f32(RoundingMode::TiesToEven)
+    }
 }
 
 impl Float for F32 {
@@ -300,6 +305,12 @@ mod tests {
     #[test]
     fn from_f32() {
         let a = F32::from_f32(0.1);
+        assert_eq!(a.to_bits(), 0x3dcccccd);
+    }
+
+    #[test]
+    fn from_f64() {
+        let a = F32::from_f64(0.1);
         assert_eq!(a.to_bits(), 0x3dcccccd);
     }
 }
