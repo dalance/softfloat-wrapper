@@ -113,6 +113,14 @@ impl Float for F128 {
         unsafe { softfloat_sys::f128_le_quiet(self.0, x.borrow().0) }
     }
 
+    fn eq_signaling<T: Borrow<Self>>(&self, x: T) -> bool {
+        unsafe { softfloat_sys::f128_eq_signaling(self.0, x.borrow().0) }
+    }
+
+    fn is_signaling_nan(&self) -> bool {
+        unsafe { softfloat_sys::f128_isSignalingNaN(self.0) }
+    }
+
     fn from_u32(x: u32, rnd: RoundingMode) -> Self {
         rnd.set();
         let ret = unsafe { softfloat_sys::ui32_to_f128(x) };
@@ -188,6 +196,7 @@ impl Float for F128 {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::ExceptionFlags;
     use std::cmp::Ordering;
 
     #[test]
@@ -305,6 +314,38 @@ mod tests {
         let b = F128::from_bits(0x12345678aaaaaaaaffffffffffffffff);
         let d = a.compare(b);
         assert_eq!(d, Some(Ordering::Equal));
+    }
+
+    #[test]
+    fn f128_signaling() {
+        let a = F128::from_bits(0x7fff0000000000000000000000000001);
+        let b = F128::from_bits(0x7fff8000000000000000000000000001);
+        assert_eq!(a.is_signaling_nan(), true);
+        assert_eq!(b.is_signaling_nan(), false);
+
+        let mut flag = ExceptionFlags::default();
+        flag.set();
+        assert_eq!(a.eq(a), false);
+        flag.get();
+        assert_eq!(flag.is_invalid(), true);
+
+        let mut flag = ExceptionFlags::default();
+        flag.set();
+        assert_eq!(b.eq(b), false);
+        flag.get();
+        assert_eq!(flag.is_invalid(), false);
+
+        let mut flag = ExceptionFlags::default();
+        flag.set();
+        assert_eq!(a.eq_signaling(a), false);
+        flag.get();
+        assert_eq!(flag.is_invalid(), true);
+
+        let mut flag = ExceptionFlags::default();
+        flag.set();
+        assert_eq!(b.eq_signaling(b), false);
+        flag.get();
+        assert_eq!(flag.is_invalid(), true);
     }
 
     #[test]

@@ -204,6 +204,10 @@ pub trait Float {
 
     fn le_quiet<T: Borrow<Self>>(&self, x: T) -> bool;
 
+    fn eq_signaling<T: Borrow<Self>>(&self, x: T) -> bool;
+
+    fn is_signaling_nan(&self) -> bool;
+
     fn from_u32(x: u32, rnd: RoundingMode) -> Self;
 
     fn from_u64(x: u64, rnd: RoundingMode) -> Self;
