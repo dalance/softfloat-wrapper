@@ -1,4 +1,4 @@
-use crate::{Float, RoundingMode, F128, F16, F64};
+use crate::{Float, RoundingMode, BF16, F128, F16, F64};
 use softfloat_sys::float32_t;
 use std::borrow::Borrow;
 
@@ -164,6 +164,10 @@ impl Float for F32 {
         rnd.set();
         let ret = unsafe { softfloat_sys::f32_to_f16(self.0) };
         F16::from_bits(ret.v)
+    }
+
+    fn to_bf16(&self, _rnd: RoundingMode) -> BF16 {
+        BF16::from_bits((self.to_bits() >> 16) as u16)
     }
 
     fn to_f32(&self, _rnd: RoundingMode) -> F32 {

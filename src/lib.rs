@@ -21,10 +21,12 @@
 //! }
 //! ```
 
+mod bf16;
 mod f128;
 mod f16;
 mod f32;
 mod f64;
+pub use crate::bf16::BF16;
 pub use crate::f128::F128;
 pub use crate::f16::F16;
 pub use crate::f32::F32;
@@ -225,6 +227,8 @@ pub trait Float {
     fn to_i64(&self, rnd: RoundingMode, exact: bool) -> i64;
 
     fn to_f16(&self, rnd: RoundingMode) -> F16;
+
+    fn to_bf16(&self, rnd: RoundingMode) -> BF16;
 
     fn to_f32(&self, rnd: RoundingMode) -> F32;
 
