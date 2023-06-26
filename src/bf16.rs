@@ -2,17 +2,17 @@ use crate::{Float, RoundingMode, F128, F16, F32, F64};
 use softfloat_sys::{float16_t, float32_t};
 use std::borrow::Borrow;
 
-/// standard 16-bit float
+/// bfloat16
 #[derive(Copy, Clone, Debug)]
 pub struct BF16(float16_t);
 
 impl BF16 {
-    /// Converts primitive `f32` to `F16`
+    /// Converts primitive `f32` to `BF16`
     pub fn from_f32(v: f32) -> Self {
         F32::from_bits(v.to_bits()).to_bf16(RoundingMode::TiesToEven)
     }
 
-    /// Converts primitive `f64` to `F16`
+    /// Converts primitive `f64` to `BF16`
     pub fn from_f64(v: f64) -> Self {
         F64::from_bits(v.to_bits()).to_bf16(RoundingMode::TiesToEven)
     }
