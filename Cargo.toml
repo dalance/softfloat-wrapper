@@ -31,7 +31,6 @@ default-features = false
 simple-soft-float = "0.1.0"
 
 [package.metadata.release]
-dev-version-ext             = "pre"
 pre-release-commit-message  = "Prepare to v{{version}}"
 post-release-commit-message = "Start next development iteration v{{version}}"
 tag-message                 = "Bump version to {{version}}"
